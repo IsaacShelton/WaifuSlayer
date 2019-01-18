@@ -15,7 +15,8 @@ from discord.ext.commands import Bot
 
 # !!!!!!!!!!!!!!!!!!!!!!!!README!!!!!!!!!!!!!!!!!!!!!!!!
 # Account token must be stored in a file called 'account.token'
-TOKEN = file_contents("account.token").strip()
+with open('account.token') as f:
+    TOKEN = f.read()
 
 print("===============================================")
 print("            STARTING WAIFU SLAYER!             ")
@@ -112,10 +113,6 @@ def detect(filename, cascade_file = "lbpcascade_animeface.xml"):
     gray = cv2.equalizeHist(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
     faces = cascade.detectMultiScale(gray, scaleFactor = 1.1, minNeighbors = 5, minSize = (24, 24))
     return len(faces)
-
-def file_contents(filename):
-    with open(filename) as f:
-        return f.read()
 
 client.loop.create_task(list_servers())
 client.run(TOKEN)
