@@ -11,6 +11,7 @@ import os.path
 from urllib.request import Request, urlopen
 import uuid
 from discord import Game
+from discord.ext import commands
 from discord.ext.commands import Bot
 
 # !!!!!!!!!!!!!!!!!!!!!!!!README!!!!!!!!!!!!!!!!!!!!!!!!
@@ -24,7 +25,7 @@ print("===============================================")
 
 BOT_PREFIX = ("?", "!")
 x = (" ")
-client = Bot(command_prefix=BOT_PREFIX)
+client = Bot(command_prefix="!")
 
 @client.command(name = 'Waifu?',
     description = "Answers the question, is it time to purge?",
@@ -68,7 +69,13 @@ async def list_servers():
             print(" - " + server.name)
         
         possible_game_names = [
-            "a Waifu Slayer Simulation", "Waifu Execution Simulator", "Waifu Hunter III"]
+            "a Waifu Slayer Simulation",
+            "Waifu Execution Simulator",
+            "Waifu Hunter III",
+            "Heart Breaker 2",
+            "Don't Kill Blonde Lucina <3",
+            "<3"
+        ]
         choice = random.choice(possible_game_names)
         print("CHANGED PRESENCE TO '" + choice + "'")
         await client.change_presence(game = Game(name = choice))
@@ -78,13 +85,9 @@ async def list_servers():
 async def on_message(message):
     if message.author == client.user:
         return
-    reduced = message.content.lower().replace(' ', '').replace('\n', '')
-    triggers = ['anime', 'anlme', 'amine', 'ƒnÔmÎ']
     found_anime = False
-    for trigger in triggers:
-        if trigger in reduced:
-            found_anime = True
-            break
+    if re.search(r'[aA]+\s*[nN]+\s*[iILl\|]+\s*[mM]+\s*[eE]', message.content):
+        found_anime = True
     for attachment in message.attachments:
         print("GOT URL " + attachment["proxy_url"])
         filename = str(uuid.uuid4()) + os.path.splitext(attachment["proxy_url"])[-1]
@@ -100,9 +103,19 @@ async def on_message(message):
         os.remove(filename)
     if found_anime:
         possible_messages = [
-            'No false waifus allowed mister, {0.author.mention}! :broken_heart:'.format(message)
+            'no false waifus allowed mister, {0.author.mention}! :broken_heart:'.format(message),
+            'your waifus are not permited here mister, {0.author.mention}! :broken_heart:'.format(message),
+            'no anime allowed mister, {0.author.mention}! :broken_heart:'.format(message),
+            'wow your waifu is ugly {0.author.mention}! :broken_heart:'.format(message),
+            'heehee! only blonde lucina is allowed {0.author.mention}! :broken_heart:'.format(message),
+            'lol, {0.author.mention} is a filthy weeb! :broken_heart:'.format(message),
+            'inferior waifu detected! no inferior waifus allowed {0.author.mention}! :broken_heart:'.format(message),
         ]
-        await client.send_message(message.channel, random.choice(possible_messages))
+        choice = random.choice(possible_messages)
+        if 'lucina' in choice:
+            possible_images = ['1.png', '2.png']
+            await client.send_file(message.channel, 'betterthanbestwaifu/' + random.choice(possible_images))
+        await client.send_message(message.channel, choice)
         await client.delete_message(message)
 
 def detect(filename, cascade_file = "lbpcascade_animeface.xml"):
