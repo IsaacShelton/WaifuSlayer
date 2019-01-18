@@ -26,18 +26,18 @@ BOT_PREFIX = ("?", "!")
 x = (" ")
 client = Bot(command_prefix=BOT_PREFIX)
 
-@client.command(name = 'Purge?',
+@client.command(name = 'Waifu?',
     description = "Answers the question, is it time to purge?",
     brief = "Answers from the beyond.",
     aliases = ['purge', 'Purge', 'purge?'],
     pass_context = True)
 async def eight_ball(context):
     possible_responses = [
-        'Let us kill all those who oppose the Enclave',
-        'Death to anime',
-        'The command has not yet given the order',
-        'It is time to kill mutie scum',
-        'We will purge the the land of the impure',
+        'It could be certain!',
+        'I am the only Waifu!',
+        'Death to the false idols! :heart:',
+        'It is time to kill the false Waifus!',
+        'We will purge the the land of the impure :(',
     ]
     await client.say(random.choice(possible_responses) + ", " + context.message.author.mention)
 
@@ -68,7 +68,7 @@ async def list_servers():
             print(" - " + server.name)
         
         possible_game_names = [
-            "a Vertibird Simulator", "Waifu Execution Simulator", "Waifu Hunter III"]
+            "a Waifu Slayer Simulation", "Waifu Execution Simulator", "Waifu Hunter III"]
         choice = random.choice(possible_game_names)
         print("CHANGED PRESENCE TO '" + choice + "'")
         await client.change_presence(game = Game(name = choice))
@@ -93,14 +93,14 @@ async def on_message(message):
         f.write(urlopen(request).read())
         f.close()
         if detect(filename) > 0:
-            await client.send_message(message.channel, "That is anime")
+            await client.send_message(message.channel, "That is a false Waifu!")
             found_anime = True
         # else:
             # await client.send_message(message.channel, "That is not anime")
         os.remove(filename)
     if found_anime:
         possible_messages = [
-            'No anime allowed mutie scum, {0.author.mention}'.format(message)
+            'No false waifus allowed mister, {0.author.mention}! :broken_heart:'.format(message)
         ]
         await client.send_message(message.channel, random.choice(possible_messages))
         await client.delete_message(message)
