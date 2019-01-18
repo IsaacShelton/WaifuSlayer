@@ -17,7 +17,7 @@ from discord.ext.commands import Bot
 # !!!!!!!!!!!!!!!!!!!!!!!!README!!!!!!!!!!!!!!!!!!!!!!!!
 # Account token must be stored in a file called 'account.token'
 with open('account.token') as f:
-    TOKEN = f.read()
+    TOKEN = f.read().strip()
 
 print("===============================================")
 print("            STARTING WAIFU SLAYER!             ")
